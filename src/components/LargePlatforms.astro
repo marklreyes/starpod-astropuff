@@ -1,0 +1,68 @@
+---
+import starpodConfig from '../../starpod.config';
+import AppleIcon from '../svgs/apple.svg?raw';
+import SpotifyIcon from '../svgs/spotify.svg?raw';
+import YouTubeIcon from '../svgs/youtube.svg?raw';
+
+const { platforms, rssFeed } = starpodConfig;
+---
+
+<div
+  class="mt-7 grid grid-cols-2 gap-6 lg:mt-11 lg:grid-cols-3 lg:justify-start"
+>
+  {
+    platforms?.apple && (
+      <a
+        class="animated-bottom-border font-bold text-light-text-heading after:mt-4 dark:text-white"
+        href={platforms.apple}
+      >
+        <span class="flex items-center">
+          Apple Podcasts
+          <span class="ml-3 flex h-4 w-4 items-center">
+            <Fragment set:html={AppleIcon} />
+          </span>
+        </span>
+      </a>
+    )
+  }
+  {
+    platforms?.spotify && (
+      <a
+        class="animated-bottom-border font-bold text-light-text-heading after:mt-4 dark:text-white"
+        href={platforms.spotify}
+      >
+        <span class="flex items-center">
+          Spotify
+          <span class="ml-3 flex h-4 w-4 items-center">
+            <Fragment set:html={SpotifyIcon} />
+          </span>
+        </span>
+      </a>
+    )
+  }
+  {
+    platforms?.youtube && (
+      <a
+        class="animated-bottom-border font-bold text-light-text-heading after:mt-4 dark:text-white"
+        href={platforms.youtube}
+      >
+        <span class="flex items-center">
+          YouTube
+          <span class="ml-3 flex h-4 w-4 items-center">
+            <Fragment set:html={YouTubeIcon} />
+          </span>
+        </span>
+      </a>
+    )
+  }
+  {
+    rssFeed && (
+      <a
+        class="animated-bottom-border font-bold text-light-text-heading after:mt-4 dark:text-white"
+        href={rssFeed}
+      >
+        <span class="flex items-center">RSS Feed</span>
+      </a>
+    )
+  }
+</div>

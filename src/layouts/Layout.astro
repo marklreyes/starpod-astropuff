@@ -1,0 +1,182 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+import { Schema } from 'astro-seo-schema';
+
+import SpeedInsights from '@vercel/speed-insights/astro';
+
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Dots from '../components/Dots.astro';
+import Hosts from '../components/Hosts.astro';
+import InfoCard from '../components/InfoCard.astro';
+import Platforms from '../components/Platforms.astro';
+import Player from '../components/Player';
+import ShowArtwork from '../components/ShowArtwork.astro';
+
+import { getShowInfo } from '../lib/rss';
+import starpodConfig from 'starpod.config';
+
+import '../styles/global.css';
+
+const show = await getShowInfo();
+
+export interface Props {
+  /**
+   * If defined, this will override the default canonical URL.
+   */
+  canonicalURL?: URL;
+  description?: string;
+  imageUrl?: string;
+  title: string;
+}
+
+const { imageUrl, title } = Astro.props;
+
+const canonicalURL =
+  Astro.props.canonicalURL ?? new URL(Astro.url.pathname, Astro.site);
+const description = Astro.props.description ?? starpodConfig.description;
+---
+
+<!doctype html>
+<html class="scrollbar-thin" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="canonical" href={canonicalURL} />
+    <meta content={canonicalURL} property="og:url" />
+    <meta content="website" property="og:type" />
+    {
+      starpodConfig.platforms.appleIdNumber && (
+        <meta
+          name="apple-itunes-app"
+          content={`app-id=${starpodConfig.platforms.appleIdNumber}`}
+        />
+      )
+    }
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Title -->
+    <title>{title}</title>
+    <meta content={title} property="og:title" />
+    <meta content={title} name="twitter:title" />
+
+    <!-- Description -->
+    <meta content={description} name="description" />
+    <meta content={description} property="og:description" />
+    <meta content={description} name="twitter:description" />
+
+    <!-- Image -->
+    <meta content={imageUrl ?? show.image} property="og:image" />
+    <meta content="summary" name="twitter:card" />
+    <meta content={imageUrl ?? show.image} name="twitter:image:src" />
+
+    <meta property="og:site_name" content={show.title} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <Schema
+      slot="head"
+      item={{
+        '@context': 'https://schema.org',
+        '@type': 'PodcastSeries',
+        name: show.title,
+        about: starpodConfig.blurb,
+        description: show.description,
+        webFeed: starpodConfig.rssFeed
+      }}
+    />
+
+    <slot name="head" />
+
+    <SpeedInsights />
+    <ClientRouter />
+  </head>
+  <body
+    class="font-inter text-light-text-body antialiased dark:bg-dark-background dark:text-dark-text-body"
+  >
+    <header
+      class="scrollbar-thin lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120"
+    >
+      <div class="relative z-10 mx-auto lg:min-h-full lg:flex-auto">
+        <div
+          class="m-2 rounded-lg bg-light-card pb-4 pt-10 lg:pb-12 lg:pt-16 dark:bg-dark-card"
+        >
+          <ShowArtwork image={show.image} />
+
+          <div class="px-4 sm:px-6 md:px-4 lg:px-16">
+            <p
+              class="mt-8 text-center text-2xl font-bold text-light-text-heading lg:text-left dark:text-white"
+            >
+              {show.title}
+            </p>
+
+            <p class="mt-2 text-center text-lg lg:text-left">
+              {starpodConfig.blurb}
+            </p>
+          </div>
+
+          <div class="px-4 sm:px-6 md:px-4 lg:px-16">
+            <Platforms />
+          </div>
+          <div class="hidden lg:block">
+            <Hosts />
+          </div>
+        </div>
+
+        <div class="hidden lg:block">
+          <InfoCard />
+        </div>
+      </div>
+    </header>
+    <main
+      class="mx-2 rounded-lg bg-light-card lg:relative lg:ml-112 lg:min-h-screen xl:ml-120 dark:bg-dark-card"
+    >
+      <div class="relative mt-2 pt-16">
+        <div
+          class="bg-gradient-light absolute left-0 right-0 top-0 z-0 h-80 w-full opacity-30 dark:bg-gradient-dark"
+        >
+        </div>
+
+        <Dots />
+
+        <div class="max-w-4xl">
+          <div
+            class:list={[
+              'relative z-20 mb-12 border-b pb-6 lg:mb-16 lg:pb-10 dark:border-dark-border',
+              Astro.url.pathname === '/' && 'hidden'
+            ]}
+          >
+            <div class="ml-8 lg:ml-18">
+              <Breadcrumbs title={title} />
+            </div>
+          </div>
+
+          <slot />
+        </div>
+      </div>
+    </main>
+    <footer class="block lg:hidden">
+      <Hosts />
+      <InfoCard />
+    </footer>
+    <div id="audio-player">
+      <Player client:only="preact" transition:persist="player" />
+    </div>
+  </body>
+</html>
