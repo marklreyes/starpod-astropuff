@@ -99,7 +99,3 @@ from `import.meta.env.SLACK_WEBHOOK`, so if you define a `SLACK_WEBHOOK`
 environment variable it should work for you. Of course, feel free to customize
 the code [here](./src/pages/api/contact.ts) to send the data elsewhere as you
 see fit.
-
-#### Configuring guests
-
-We use Turso and Astro DB to setup guests per episode. If you would also like to do this, you will need a Turso account.

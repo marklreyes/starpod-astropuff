@@ -1,14 +1,5 @@
 ---
 import { getEntry } from 'astro:content';
-import {
-  db,
-  eq,
-  Episode as DbEpisode,
-  HostOrGuest,
-  Person,
-  Sponsor,
-  SponsorForEpisode
-} from 'astro:db';
 
 import { Schema } from 'astro-seo-schema';
 
@@ -54,32 +45,32 @@ if (episode.episodeNumber && episode.episodeNumber !== 'Bonus') {
 
 const canonicalURL = new URL(`/${episode.episodeSlug}`, Astro.url);
 
-const hostsAndGuests = await db
-  .select({
-    id: Person.id,
-    img: Person.img,
-    isHost: HostOrGuest.isHost,
-    name: Person.name
-  })
-  .from(HostOrGuest)
-  .innerJoin(DbEpisode, eq(HostOrGuest.episodeSlug, DbEpisode.episodeSlug))
-  .innerJoin(Person, eq(HostOrGuest.personId, Person.id))
-  .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
+// const hostsAndGuests = await db
+//   .select({
+//     id: Person.id,
+//     img: Person.img,
+//     isHost: HostOrGuest.isHost,
+//     name: Person.name
+//   })
+//   .from(HostOrGuest)
+//   .innerJoin(DbEpisode, eq(HostOrGuest.episodeSlug, DbEpisode.episodeSlug))
+//   .innerJoin(Person, eq(HostOrGuest.personId, Person.id))
+//   .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
 
-const sponsors = await db
-  .select({
-    id: Sponsor.id,
-    img: Sponsor.img,
-    name: Sponsor.name,
-    url: Sponsor.url
-  })
-  .from(SponsorForEpisode)
-  .innerJoin(
-    DbEpisode,
-    eq(SponsorForEpisode.episodeSlug, DbEpisode.episodeSlug)
-  )
-  .innerJoin(Sponsor, eq(SponsorForEpisode.sponsorId, Sponsor.id))
-  .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
+// const sponsors = await db
+//   .select({
+//     id: Sponsor.id,
+//     img: Sponsor.img,
+//     name: Sponsor.name,
+//     url: Sponsor.url
+//   })
+//   .from(SponsorForEpisode)
+//   .innerJoin(
+//     DbEpisode,
+//     eq(SponsorForEpisode.episodeSlug, DbEpisode.episodeSlug)
+//   )
+//   .innerJoin(Sponsor, eq(SponsorForEpisode.sponsorId, Sponsor.id))
+//   .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
 
 const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumber}`;
 ---
@@ -124,14 +115,6 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
         <div class="mb-8 block lg:hidden">
           <FullPlayButton client:only="preact" episode={episode} />
         </div>
-
-        {
-          hostsAndGuests?.length ? (
-            <CreatorsAndGuests hostsAndGuests={hostsAndGuests} />
-          ) : undefined
-        }
-
-        {sponsors?.length ? <Sponsors sponsors={sponsors} /> : undefined}
 
         <h3 class="section-heading-underlined mb-8 mt-16">Show Notes</h3>
 

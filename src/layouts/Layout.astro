@@ -3,8 +3,6 @@ import { ClientRouter } from 'astro:transitions';
 
 import { Schema } from 'astro-seo-schema';
 
-import SpeedInsights from '@vercel/speed-insights/astro';
-
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Dots from '../components/Dots.astro';
 import Hosts from '../components/Hosts.astro';
@@ -104,7 +102,6 @@ const description = Astro.props.description ?? starpodConfig.description;
 
     <slot name="head" />
 
-    <SpeedInsights />
     <ClientRouter />
   </head>
   <body
