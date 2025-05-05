@@ -45,7 +45,6 @@ export type StarpodConfig = {
     apple?: string;
     google?: string;
     appleIdNumber?: string;
-    google?: string;
     pocketCasts?: string;
     spotify?: string;
     youtube?: string;
