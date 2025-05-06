@@ -21,7 +21,9 @@ export default function EpisodeList({ episodes, url }: Props) {
     if (canLoadMore) {
       setIsLoading(true);
 
-      const episodeResponse = await fetch(`${url}api/episodes/${page}.json`);
+      // Ensure URL has a trailing slash before adding the path
+      const baseUrl = url.toString().endsWith('/') ? url.toString() : `${url.toString()}/`;
+      const episodeResponse = await fetch(`${baseUrl}api/episodes/${page}.json`);
       const { canLoadMore, episodes } = await episodeResponse.json();
 
       setIsLoading(false);
