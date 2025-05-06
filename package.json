@@ -20,7 +20,7 @@
     "@astrojs/netlify": "^6.3.2",
     "@astrojs/preact": "^4.0.8",
     "@astrojs/sitemap": "^3.3.1",
-    "@preact/signals": "^2.0.3",
+    "@preact/signals": "^2.0.4",
     "astro": "^5.1.4",
     "astro-seo-schema": "^5.0.0",
     "atropos": "^2.0.2",
