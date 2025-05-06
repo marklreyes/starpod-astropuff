@@ -27,7 +27,7 @@
     "preact": "^10.26.6",
     "rss-to-json": "^2.1.1",
     "schema-dts": "^1.1.2",
-    "valibot": "^0.31.1"
+    "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
