@@ -1,4 +1,3 @@
-import type { JSX } from 'preact/jsx-runtime';
 import { useState } from 'preact/hooks';
 import FormattedDate from '../components/FormattedDate';
 import FullPlayButton from '../components/FullPlayButton';
@@ -21,16 +20,25 @@ export default function EpisodeList({ episodes, url }: Props) {
     if (canLoadMore) {
       setIsLoading(true);
 
-      // Ensure URL has a trailing slash before adding the path
-      const baseUrl = url.toString().endsWith('/') ? url.toString() : `${url.toString()}/`;
-      const episodeResponse = await fetch(`${baseUrl}api/episodes/${page}.json`);
-      const { canLoadMore, episodes } = await episodeResponse.json();
+      // Get the current origin (works with both domains)
+      const origin = window.location.origin;
 
-      setIsLoading(false);
-      setCanLoadMore(canLoadMore);
+      // Construct the API URL using the current origin
+      const apiUrl = `${origin}/api/episodes/${page}.json`;
 
-      setRecentEpisodes([...recentEpisodes, ...episodes.data]);
-      setPage(page + 1);
+      try {
+        const episodeResponse = await fetch(apiUrl);
+        const { canLoadMore, episodes } = await episodeResponse.json();
+
+        setIsLoading(false);
+        setCanLoadMore(canLoadMore);
+
+        setRecentEpisodes([...recentEpisodes, ...episodes.data]);
+        setPage(page + 1);
+      } catch (error) {
+        console.error("Error fetching episodes:", error);
+        setIsLoading(false);
+      }
     }
   }
 
