@@ -4,8 +4,6 @@ import { getEntry } from 'astro:content';
 import { Schema } from 'astro-seo-schema';
 
 import FormattedDate from '../components/FormattedDate';
-import CreatorsAndGuests from '../components/episode/CreatorsAndGuests.astro';
-import Sponsors from '../components/episode/Sponsors.astro';
 import PlayButton from '../components/player/PlayButton';
 import FullPlayButton from '../components/FullPlayButton';
 import UFOIllustration from '../components/illustrations/UFOIllustration.astro';
@@ -44,33 +42,6 @@ if (episode.episodeNumber && episode.episodeNumber !== 'Bonus') {
 }
 
 const canonicalURL = new URL(`/${episode.episodeSlug}`, Astro.url);
-
-// const hostsAndGuests = await db
-//   .select({
-//     id: Person.id,
-//     img: Person.img,
-//     isHost: HostOrGuest.isHost,
-//     name: Person.name
-//   })
-//   .from(HostOrGuest)
-//   .innerJoin(DbEpisode, eq(HostOrGuest.episodeSlug, DbEpisode.episodeSlug))
-//   .innerJoin(Person, eq(HostOrGuest.personId, Person.id))
-//   .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
-
-// const sponsors = await db
-//   .select({
-//     id: Sponsor.id,
-//     img: Sponsor.img,
-//     name: Sponsor.name,
-//     url: Sponsor.url
-//   })
-//   .from(SponsorForEpisode)
-//   .innerJoin(
-//     DbEpisode,
-//     eq(SponsorForEpisode.episodeSlug, DbEpisode.episodeSlug)
-//   )
-//   .innerJoin(Sponsor, eq(SponsorForEpisode.sponsorId, Sponsor.id))
-//   .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
 
 const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumber}`;
 ---
