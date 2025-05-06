@@ -7,30 +7,40 @@ export default function ContactForm() {
   async function submit(e: SubmitEvent) {
     e.preventDefault();
 
-    const formData = new FormData(e.target as HTMLFormElement);
     try {
-      const response = await fetch('/api/contact', {
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
+
+      // Let Netlify handle the form submission
+      fetch('/', {
         method: 'POST',
-        body: formData
-      });
-
-      const data = await response.json();
-
-      if (data.message) {
-        setResponseMessage(data.message);
-      }
-      if (response.ok) {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
+      })
+      .then(() => {
+        setResponseMessage('Thank you for your message! We\'ll get back to you soon.');
         setFormSubmitted(true);
-      }
-    } catch {}
+        form.reset();
+      })
+      .catch(error => {
+        console.error('Error submitting form:', error);
+        setResponseMessage('There was an error submitting your form. Please try again.');
+      });
+    } catch (error) {
+      console.error('Error in form submission:', error);
+      setResponseMessage('Something went wrong. Please try again later.');
+    }
   }
 
   return (
     <>
       {formSubmitted ? (
-        `${responseMessage}`
+        <div className="rounded-lg bg-green-100 p-6 text-center dark:bg-green-900/30">
+          <p className="font-medium text-green-800 dark:text-green-200">{responseMessage}</p>
+        </div>
       ) : (
-        <form class="flex flex-col gap-2" onSubmit={submit}>
+        <form class="flex flex-col gap-2" data-netlify="true" name="contact" method="POST" onSubmit={submit}>
+          <input type="hidden" name="form-name" value="contact" />
           <input
             class="input"
             type="text"
