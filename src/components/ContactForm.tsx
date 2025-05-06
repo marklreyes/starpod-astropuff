@@ -17,7 +17,10 @@ export default function ContactForm() {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData as any).toString()
       })
-      .then(() => {
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Form submission failed with status ${response.status}`);
+        }
         setResponseMessage('Thank you for your message! We\'ll get back to you soon.');
         setFormSubmitted(true);
         form.reset();
