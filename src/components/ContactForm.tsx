@@ -14,10 +14,13 @@ export default function ContactForm() {
       // Let Netlify handle the form submission
       fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
         body: new URLSearchParams(formData as any).toString()
       })
       .then((response) => {
+        console.log('Form submission response:', response.status, response.statusText);
         if (!response.ok) {
           throw new Error(`Form submission failed with status ${response.status}`);
         }
@@ -42,10 +45,27 @@ export default function ContactForm() {
           <p className="font-medium text-green-800 dark:text-green-200">{responseMessage}</p>
         </div>
       ) : (
-        <form class="flex flex-col gap-2" data-netlify="true" name="contact" method="POST" onSubmit={submit}>
+        // Make sure the form has all the required Netlify attributes
+        <form
+          className="flex flex-col gap-2"
+          data-netlify="true"
+          name="contact"
+          method="POST"
+          netlify-honeypot="bot-field"
+          onSubmit={submit}
+        >
+          {/* Hidden field for Netlify form name */}
           <input type="hidden" name="form-name" value="contact" />
+
+          {/* Honeypot field to prevent spam */}
+          <p className="hidden">
+            <label>
+              Don't fill this out if you're human: <input name="bot-field" />
+            </label>
+          </p>
+
           <input
-            class="input"
+            className="input"
             type="text"
             id="name"
             name="name"
@@ -53,7 +73,7 @@ export default function ContactForm() {
             required
           />
           <input
-            class="input"
+            className="input"
             type="email"
             id="email"
             name="email"
@@ -62,16 +82,19 @@ export default function ContactForm() {
           />
 
           <textarea
-            class="input"
+            className="input"
             id="message"
             name="message"
             placeholder="Write a message"
             required
           />
 
-          <div class="my-6 flex w-full justify-end">
-            <button class="btn w-full justify-center lg:w-auto">
-              <span class="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white">
+          <div className="my-6 flex w-full justify-end">
+            <button
+              type="submit"
+              className="btn w-full justify-center lg:w-auto"
+            >
+              <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white">
                 Submit
               </span>
             </button>
