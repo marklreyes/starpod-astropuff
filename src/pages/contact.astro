@@ -16,6 +16,17 @@ import ContactForm from '../components/ContactForm';
       Reach out here and we'll be in touch soon!
     </p>
 
+    {/* Hidden pre-rendered form for Netlify to detect during build */}
+    <div style="display:none">
+      <form name="contact" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        <input name="bot-field" />
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <textarea name="message"></textarea>
+      </form>
+    </div>
+
     <ContactForm client:load />
   </div>
 </Layout>
