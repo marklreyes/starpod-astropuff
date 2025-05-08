@@ -28,7 +28,7 @@ importers:
         version: 5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1)
       astro-seo-schema:
         specifier: ^5.0.0
-        version: 5.0.0(astro@5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1))(schema-dts@1.1.2(typescript@5.7.2))
+        version: 5.0.0(astro@5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1))(schema-dts@1.1.5)
       atropos:
         specifier: ^2.0.2
         version: 2.0.2
@@ -39,8 +39,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       schema-dts:
-        specifier: ^1.1.2
-        version: 1.1.2(typescript@5.7.2)
+        specifier: ^1.1.5
+        version: 1.1.5
       valibot:
         specifier: ^1.1.0
         version: 1.1.0(typescript@5.7.2)
@@ -3375,10 +3375,8 @@ packages:
   sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
-  schema-dts@1.1.2:
-    resolution: {integrity: sha512-MpNwH0dZJHinVxk9bT8XUdjKTxMYrA5bLtrrGmFA6PTLwlOKnhi67XoRd6/ty+Djt6ZC0slR57qFhZDNMI6DhQ==}
-    peerDependencies:
-      typescript: '>=4.1.0'
+  schema-dts@1.1.5:
+    resolution: {integrity: sha512-RJr9EaCmsLzBX2NDiO5Z3ux2BVosNZN5jo0gWgsyKvxKIUL5R3swNvoorulAeL9kLB0iTSX7V6aokhla2m7xbg==}
 
   selderee@0.11.0:
     resolution: {integrity: sha512-5TF+l7p4+OsnP8BCCvSyZiSPc4x4//p5uPwK8TCnVPJYRmU2aYKMpOXvw8zM5a5JvuuCGN1jmsMwuU2W02ukfA==}
@@ -5519,10 +5517,10 @@ snapshots:
 
   ast-module-types@5.0.0: {}
 
-  astro-seo-schema@5.0.0(astro@5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1))(schema-dts@1.1.2(typescript@5.7.2)):
+  astro-seo-schema@5.0.0(astro@5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1))(schema-dts@1.1.5):
     dependencies:
       astro: 5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1)
-      schema-dts: 1.1.2(typescript@5.7.2)
+      schema-dts: 1.1.5
 
   astro@5.7.11(@netlify/blobs@8.2.0)(@types/node@22.10.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.7.2)(yaml@2.6.1):
     dependencies:
@@ -7702,9 +7700,7 @@ snapshots:
 
   sax@1.4.1: {}
 
-  schema-dts@1.1.2(typescript@5.7.2):
-    dependencies:
-      typescript: 5.7.2
+  schema-dts@1.1.5: {}
 
   selderee@0.11.0:
     dependencies:
