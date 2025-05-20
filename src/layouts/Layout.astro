@@ -38,6 +38,15 @@ const description = Astro.props.description ?? starpodConfig.description;
 <!doctype html>
 <html class="scrollbar-thin" lang="en">
   <head>
+		<!-- Google tag (gtag.js) -->
+		<script is:inline src="https://www.googletagmanager.com/gtag/js?id=G-SPZJ6ZH9QG"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-SPZJ6ZH9QG');
+		</script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
