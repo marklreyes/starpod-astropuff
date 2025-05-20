@@ -99,7 +99,7 @@ export default function PuffProcurementApp() {
 
         // Get the site logo (assuming it has a specific class or id)
         const logoElement = document.querySelector('.site-logo') || document.querySelector('header img');
-        const logoSrc = logoElement ? (logoElement as HTMLImageElement).src : '';
+        const logoSrc = logoElement ? sanitizeUrl((logoElement as HTMLImageElement).src) : '';
 
         // Create a copy of the table with text values instead of inputs
         const tableClone = document.createElement('table');
@@ -190,7 +190,7 @@ export default function PuffProcurementApp() {
             </head>
             <body>
                 <div class="print-header">
-                    ${logoSrc ? `<img class="logo" src="${logoSrc}" alt="Puff Provisions Logo" />` : ''}
+                    ${logoSrc ? `<img class="logo" src="${escapeHtml(logoSrc)}" alt="Puff Provisions Logo" />` : ''}
                     <h1>Procurement Comparison</h1>
                 </div>
                 <table>
