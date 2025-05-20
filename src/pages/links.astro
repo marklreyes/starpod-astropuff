@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SocialLink from '../components/SocialLink.astro';
-// import { starpodConfig } from '../utils/config';
 import starpodConfig from 'starpod.config';
 
 ---
@@ -89,6 +88,16 @@ import starpodConfig from 'starpod.config';
       <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
         <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">More Links</h2>
         <div class="space-y-3">
+          <SocialLink
+            href="/puff-procurement"
+            icon="procurement"
+            label="Puff Procurement"
+          />
+          <SocialLink
+            href="/should-i-puff"
+            icon="puff"
+            label="Should I Puff?"
+          />
           <SocialLink
             href="https://puff-provisions.creator-spring.com/"
             icon="shopping-bag"
