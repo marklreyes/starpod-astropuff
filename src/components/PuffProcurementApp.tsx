@@ -517,20 +517,20 @@ export default function PuffProcurementApp() {
             </table>
 
             {/* Using Tailwind utility classes for the action buttons */}
-            <div className="my-6 flex w-full justify-end">
+            <div className="my-6 flex flex-col md:flex-row w-full justify-end space-y-3 md:space-y-0">
                 <button
                     onClick={addRow}
-                    className="btn w-full justify-center lg:w-auto"
+                    className="btn w-full justify-center md:w-auto"
                 >
-                    <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white">
+                    <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white flex items-center justify-center">
                         Add Row
                     </span>
                 </button>
                 <button
                     onClick={printTable}
-                    className="btn w-full justify-center lg:w-auto ml-4"
+                    className="btn w-full justify-center md:w-auto md:ml-4"
                 >
-                    <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white">
+                    <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white flex items-center justify-center">
                         Print Table
                     </span>
                 </button>
