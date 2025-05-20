@@ -1,4 +1,9 @@
 import { useState, useEffect } from 'preact/hooks';
+import DOMPurify from 'dompurify';
+
+// Define utility functions using DOMPurify
+const sanitizeUrl = (url) => DOMPurify.sanitize(url);
+const escapeHtml = (html) => DOMPurify.sanitize(html);
 
 export default function PuffProcurementApp() {
     const [tableData, setTableData] = useState([
