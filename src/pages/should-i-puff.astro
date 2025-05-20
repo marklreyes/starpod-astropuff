@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ShouldIPuffApp from '../components/ShouldIPuffApp';
+
+---
+
+<Layout title="Should I Puff?">
+  <div class="relative z-10 px-8 lg:px-18">
+    <h1 class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white">
+      Should I Puff?
+    </h1>
+
+    <p class="mb-5">
+		You already know the answer but have some fun and see if randomness says otherwise!
+    </p>
+
+	<h2 class="section-heading-underlined mt-16 lg:mt-24">Puff Responsibly</h2>
+
+    <div class="mt-9 lg:mt-12 pb-8 lg:pb-18">
+    	<ShouldIPuffApp client:load />
+	</div>
+  </div>
+</Layout>
