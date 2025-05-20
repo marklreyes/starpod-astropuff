@@ -2,7 +2,7 @@
 export interface Props {
   href: string;
   label: string;
-  icon: 'apple-podcasts' | 'spotify' | 'youtube' | 'pocket-casts' | 'rss' | 'instagram' | 'twitter' | 'link' | 'shopping-bag' | 'heart' | 'mail' | 'procurement';
+  icon: 'apple-podcasts' | 'spotify' | 'youtube' | 'pocket-casts' | 'rss' | 'instagram' | 'twitter' | 'link' | 'shopping-bag' | 'heart' | 'mail' | 'procurement' | 'puff';
 }
 
 const { href, label, icon } = Astro.props;
@@ -67,6 +67,12 @@ function getIconSvg(iconName: string) {
                 <line x1="9" y1="3" x2="9" y2="21"></line>
                 <line x1="15" y1="3" x2="15" y2="21"></line>
               </svg>`;
+    case 'puff':
+      return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12,22c3.5,0,7-1.5,7-6c0-3.5-2.5-5-5-5c2.5,0,4-1.5,4-4s-1.5-3-3-3c-1.5,0-3,0.5-3,2c0-1.5-1.5-2-3-2c-1.5,0-3,0-3,3s1.5,4,4,4c-2.5,0-5,1.5-5,5c0,4.5,3.5,6,7,6Z" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M5,10c-1,0.5-2,1-2,3c0,2.5,2,3,4,3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M19,10c1,0.5,2,1,2,3c0,2.5-2,3-4,3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>`;
     default:
       return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -80,10 +86,10 @@ const iconSvg = getIconSvg(icon);
 ---
 
 <a
-  href={href}
-  target="_blank"
-  rel="noopener noreferrer"
-  class="flex items-center rounded-lg bg-light-background p-4 text-light-text-heading transition-colors hover:bg-light-background-hover dark:bg-dark-background dark:text-white dark:hover:bg-dark-background-hover"
+  	href={href}
+	target={href.startsWith("http") || href.startsWith("//") ? "_blank" : undefined}
+	rel={href.startsWith("http") || href.startsWith("//") ? "noopener noreferrer" : undefined}
+  	class="flex items-center rounded-lg bg-light-background p-4 text-light-text-heading transition-colors hover:bg-light-background-hover dark:bg-dark-background dark:text-white dark:hover:bg-dark-background-hover"
 >
   <span class="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-light-primary text-white dark:bg-dark-primary">
       <span set:html={iconSvg}></span>
