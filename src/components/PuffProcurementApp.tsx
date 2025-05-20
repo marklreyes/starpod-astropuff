@@ -200,8 +200,8 @@ export default function PuffProcurementApp() {
                             <th>Purpose</th>
                             <th>Quantity</th>
                             <th>Vendors</th>
-                            <th>A Price</th>
-                            <th>B Price</th>
+                            <th>Price A</th>
+                            <th>Price B</th>
                             <th>Total A</th>
                             <th>Total B</th>
                             <th>Lowest</th>
@@ -338,30 +338,13 @@ export default function PuffProcurementApp() {
                     border-top: 2px solid var(--color-border-dark, #d1d5db);
                 }
 
+                /* Only keeping the button container styling */
                 .procurement-app .button-container {
                     display: flex;
                     gap: 0.5rem; /* Reduced gap */
                     margin-top: 1rem;
+                    justify-content: flex-end;
                 }
-
-                .procurement-app button {
-                    background-color: var(--color-primary, #4f46e5);
-                    color: white;
-                    border: none;
-                    border-radius: 0.25rem;
-                    padding: 0.4rem 0.75rem; /* Reduced padding */
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: background-color 0.2s;
-                    font-size: 0.8rem; /* Smaller button text */
-                }
-
-                .procurement-app button.remove-btn {
-                    padding: 0.25rem 0.5rem; /* Even smaller remove button */
-                    font-size: 0.7rem;
-                }
-
-                /* Rest of CSS remains the same */
 
                 /* Improved responsive adjustments */
                 @media (max-width: 768px) {
@@ -432,6 +415,12 @@ export default function PuffProcurementApp() {
                     .procurement-app td {
                         width: 100% !important;
                     }
+
+                    /* Make button container stack vertically on mobile */
+                    .procurement-app .button-container {
+                        flex-direction: column;
+                        width: 100%;
+                    }
                 }
             `}</style>
 
@@ -481,29 +470,33 @@ export default function PuffProcurementApp() {
                                     onChange={(e) => handleEdit(rowIndex, 'vendorOptions', (e.target as HTMLInputElement).value)}
                                 />
                             </td>
-                            <td data-label="Vendor 1 Price">
+                            <td data-label="A Price">
                                 <input
                                     type="number"
                                     value={row.costVendor1}
                                     onChange={(e) => handleEdit(rowIndex, 'costVendor1', (e.target as HTMLInputElement).value)}
                                 />
                             </td>
-                            <td data-label="Vendor 2 Price">
+                            <td data-label="B Price">
                                 <input
                                     type="number"
                                     value={row.costVendor2}
                                     onChange={(e) => handleEdit(rowIndex, 'costVendor2', (e.target as HTMLInputElement).value)}
                                 />
                             </td>
-                            <td data-label="Total Cost 1">${row.estimatedCostVendor1.toFixed(2)}</td>
-                            <td data-label="Total Cost 2">${row.estimatedCostVendor2.toFixed(2)}</td>
+                            <td data-label="Total A">${row.estimatedCostVendor1.toFixed(2)}</td>
+                            <td data-label="Total B">${row.estimatedCostVendor2.toFixed(2)}</td>
                             <td data-label="Lowest Cost">${row.lowestFinalCost.toFixed(2)}</td>
                             <td data-label="Action">
                                 <button
-                                    className="remove-btn"
                                     onClick={() => removeRow(rowIndex)}
+                                    className="btn"
+                                    aria-label={`Remove row ${rowIndex + 1}`}
+                                    title="Remove item"
                                 >
-                                    Remove
+                                    <span className="rounded-full px-2 py-1 text-center text-xs text-white bg-red-500 dark:bg-red-600 flex items-center justify-center w-6 h-6">
+                                        ✕
+                                    </span>
                                 </button>
                             </td>
                         </tr>
@@ -518,9 +511,24 @@ export default function PuffProcurementApp() {
                 </tfoot>
             </table>
 
-            <div className="button-container">
-                <button onClick={addRow}>Add Row</button>
-                <button onClick={printTable}>Print Table</button>
+            {/* Using Tailwind utility classes for the action buttons */}
+            <div className="my-6 flex w-full justify-end">
+                <button
+                    onClick={addRow}
+                    className="btn w-full justify-center lg:w-auto"
+                >
+                    <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white">
+                        Add Row
+                    </span>
+                </button>
+                <button
+                    onClick={printTable}
+                    className="btn w-full justify-center lg:w-auto ml-4"
+                >
+                    <span className="rounded-full px-12 py-3 text-center text-sm text-light-text-heading dark:text-white">
+                        Print Table
+                    </span>
+                </button>
             </div>
         </div>
     );
