@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SocialLink from '../components/SocialLink.astro';
+// import { starpodConfig } from '../utils/config';
+import starpodConfig from 'starpod.config';
+
+---
+
+<Layout title="Links">
+  <div class="relative z-10 px-8 lg:px-18">
+    <h1
+      class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white"
+    >
+      All Our Links
+    </h1>
+
+    <div class="space-y-4">
+      <!-- Podcast Links -->
+      <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
+        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Listen to Our Podcast</h2>
+        <div class="space-y-3">
+          {starpodConfig.platforms.apple && (
+            <SocialLink
+              href={starpodConfig.platforms.apple}
+              icon="apple-podcasts"
+              label="Apple Podcasts"
+            />
+          )}
+          {starpodConfig.platforms.spotify && (
+            <SocialLink
+              href={starpodConfig.platforms.spotify}
+              icon="spotify"
+              label="Spotify"
+            />
+          )}
+          {starpodConfig.platforms.youtube && (
+            <SocialLink
+              href={starpodConfig.platforms.youtube}
+              icon="youtube"
+              label="YouTube"
+            />
+          )}
+          {starpodConfig.platforms.pocketCasts && (
+            <SocialLink
+              href={starpodConfig.platforms.pocketCasts}
+              icon="pocket-casts"
+              label="Pocket Casts"
+            />
+          )}
+          {starpodConfig.rssFeed && (
+            <SocialLink
+              href={starpodConfig.rssFeed}
+              icon="rss"
+              label="RSS Feed"
+            />
+          )}
+        </div>
+      </div>
+
+      <!-- Host Links -->
+      <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
+        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Follow Our Hosts</h2>
+        <div class="space-y-3">
+          {starpodConfig.hosts.map((host) => (
+            <div class="mb-4">
+              <h3 class="mb-2 font-medium">{host.name}</h3>
+              <div class="ml-4 space-y-2">
+                {host.instagram && (
+                  <SocialLink
+                    href={host.instagram}
+                    icon="instagram"
+                    label="Instagram"
+                  />
+                )}
+                {host.website && (
+                  <SocialLink
+                    href={host.website}
+                    icon="link"
+                    label="Website"
+                  />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Additional Links -->
+      <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
+        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">More Links</h2>
+        <div class="space-y-3">
+          <SocialLink
+            href="https://puff-provisions.creator-spring.com/"
+            icon="shopping-bag"
+            label="Store"
+          />
+          <SocialLink
+            href="/sponsor"
+            icon="heart"
+            label="Become a Sponsor"
+          />
+          <SocialLink
+            href="/contact"
+            icon="mail"
+            label="Contact Us"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
