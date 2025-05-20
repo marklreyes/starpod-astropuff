@@ -41,7 +41,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.2",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3"
