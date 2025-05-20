@@ -27,7 +27,6 @@ export default defineStarpodConfig({
   platforms: {
     apple: 'https://podcasts.apple.com/us/podcast/the-puff-provisions-podcast/id1462384838',
     appleIdNumber: '1462384838',
-    pocketCasts: 'https://pca.st/bezzctzj',
     spotify: 'https://open.spotify.com/show/2pymRIfDuaDCYRA2Znu8eQ?si=fabc9f336ac340aa',
     youtube: 'https://www.youtube.com/@puffprovisions/'
   },
