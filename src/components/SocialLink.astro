@@ -86,14 +86,14 @@ const iconSvg = getIconSvg(icon);
 ---
 
 <a
-  	href={href}
-	target={href.startsWith("http") || href.startsWith("//") ? "_blank" : undefined}
-	rel={href.startsWith("http") || href.startsWith("//") ? "noopener noreferrer" : undefined}
-  	class="flex items-center rounded-lg bg-light-background p-4 text-light-text-heading transition-colors hover:bg-light-background-hover dark:bg-dark-background dark:text-white dark:hover:bg-dark-background-hover"
+  href={href}
+  target={href.startsWith("http") || href.startsWith("//") ? "_blank" : undefined}
+  rel={href.startsWith("http") || href.startsWith("//") ? "noopener noreferrer" : undefined}
+  class="animated-bottom-border relative flex items-center rounded-lg bg-light-background p-4 text-light-text-heading transition-colors hover:bg-light-background-hover dark:bg-dark-background dark:text-white dark:hover:bg-dark-background-hover after:w-full after:absolute after:bottom-0 after:left-0 after:mt-0"
 >
   <span class="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-light-primary text-white dark:bg-dark-primary">
-      <span set:html={iconSvg}></span>
-    </span>
+    <span set:html={iconSvg}></span>
+  </span>
   <span>{label}</span>
   <svg class="ml-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
     <path
