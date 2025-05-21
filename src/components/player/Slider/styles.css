@@ -7,7 +7,7 @@
     @apply h-1.5 w-full cursor-pointer border-none bg-gray-200 outline-none dark:bg-gray-700;
   }
   &::before {
-    @apply h-1.5 bg-gradient-to-r from-[#D8CCFF] to-[#8A63FF] dark:from-[#42C8F3] dark:to-[#B6EDFF];
+    @apply h-1.5 bg-gradient-to-r from-[#9ae17b] to-[#6bba62] dark:from-[#9ae17b] dark:to-[#6bba62];
     position: absolute;
     content: '';
     top: 0;
@@ -24,7 +24,7 @@
     @apply h-1.5 w-full cursor-pointer border-none bg-gray-200 outline-none dark:bg-gray-700;
   }
   &::-moz-range-progress {
-    @apply h-1.5 bg-gradient-to-r from-[#D8CCFF] to-[#8A63FF] dark:from-[#42C8F3] dark:to-[#B6EDFF];
+    @apply h-1.5 bg-gradient-to-r from-[#9ae17b] to-[#6bba62] dark:from-[#9ae17b] dark:to-[#6bba62];
   }
   &::-moz-focus-outer {
     border: 0;
