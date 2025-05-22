@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CannabisMapApp from '../components/CannabisMapApp';
+---
+
+<Layout title="Cannabis Map">
+  <div class="relative z-10 px-8 lg:px-18">
+    <h1 class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white">
+      Cannabis Map
+    </h1>
+
+    <p class="mb-5">
+		Cannabis laws are constantly evolving and staying ahead of the curve requires diligence.
+    </p>
+
+	<h2 class="section-heading-underlined mt-16 lg:mt-24">Select your state</h2>
+
+    <div class="mt-9 lg:mt-12 pb-8 lg:pb-18">
+    	<CannabisMapApp client:load />
+	</div>
+  </div>
+</Layout>

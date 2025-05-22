@@ -128,6 +128,54 @@ export default function PuffFinderApp() {
             },
             flavors: ['Citrus', 'Earthy', 'Sweet'],
             description: 'Green Crack, also known as "Green Crush" or "Mango Crack," is a potent sativa strain named after its strong energetic effects.'
+          },
+          {
+            id: 9,
+            name: 'Pineapple Express',
+            race: 'hybrid',
+            effects: {
+              positive: ['Creative', 'Energetic', 'Euphoric'],
+              negative: ['Dry Mouth', 'Paranoia'],
+              medical: ['Depression', 'Fatigue', 'Stress']
+            },
+            flavors: ['Pineapple', 'Sweet', 'Tropical'],
+            description: 'Made famous by the movie of the same name, Pineapple Express is a sativa-dominant hybrid with a tropical aroma and long-lasting energetic effects.'
+          },
+          {
+            id: 10,
+            name: 'Wedding Cake',
+            race: 'hybrid',
+            effects: {
+              positive: ['Relaxed', 'Happy', 'Euphoric'],
+              negative: ['Dry Mouth', 'Dry Eyes'],
+              medical: ['Pain', 'Insomnia', 'Stress']
+            },
+            flavors: ['Sweet', 'Vanilla', 'Earthy'],
+            description: 'Wedding Cake, also known as Pink Cookies, is a potent indica-leaning hybrid strain known for its rich and tangy flavor profile with hints of earthy pepper.'
+          },
+          {
+            id: 11,
+            name: 'Purple Punch',
+            race: 'indica',
+            effects: {
+              positive: ['Relaxed', 'Sleepy', 'Happy'],
+              negative: ['Dry Mouth', 'Hunger'],
+              medical: ['Insomnia', 'Stress', 'Pain']
+            },
+            flavors: ['Grape', 'Blueberry', 'Sweet'],
+            description: 'Purple Punch is a delicious dessert strain that is a cross between Larry OG and Granddaddy Purple, featuring a sweet and fruity grape-like aroma.'
+          },
+          {
+            id: 12,
+            name: 'Durban Poison',
+            race: 'sativa',
+            effects: {
+              positive: ['Energetic', 'Focused', 'Creative'],
+              negative: ['Dry Mouth', 'Anxious'],
+              medical: ['Fatigue', 'Depression', 'ADHD']
+            },
+            flavors: ['Earthy', 'Pine', 'Spicy'],
+            description: 'Durban Poison is a pure South African sativa strain named after the city of Durban. It offers a sweet smell and energetic, uplifting effects that are great for productivity.'
           }
         ];
 
