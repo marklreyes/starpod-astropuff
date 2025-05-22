@@ -16,7 +16,7 @@ import starpodConfig from 'starpod.config';
     <div class="space-y-4">
       <!-- Podcast Links -->
       <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
-        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Listen to Our Podcast</h2>
+        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Listen Anywhere</h2>
         <div class="space-y-3">
           {starpodConfig.platforms.apple && (
             <SocialLink
@@ -88,6 +88,11 @@ import starpodConfig from 'starpod.config';
       <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
         <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">More Links</h2>
         <div class="space-y-3">
+          <SocialLink
+            href="/puff-finder"
+            icon="finder"
+            label="Puff Finder"
+          />
           <SocialLink
             href="/puff-procurement"
             icon="procurement"
