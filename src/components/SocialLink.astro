@@ -2,7 +2,7 @@
 export interface Props {
   href: string;
   label: string;
-  icon: 'apple-podcasts' | 'spotify' | 'youtube' | 'pocket-casts' | 'rss' | 'instagram' | 'twitter' | 'link' | 'shopping-bag' | 'heart' | 'mail' | 'procurement' | 'puff';
+  icon: 'apple-podcasts' | 'spotify' | 'youtube' | 'pocket-casts' | 'rss' | 'instagram' | 'twitter' | 'link' | 'shopping-bag' | 'heart' | 'mail' | 'finder' | 'procurement' | 'puff';
 }
 
 const { href, label, icon } = Astro.props;
@@ -58,6 +58,15 @@ function getIconSvg(iconName: string) {
       return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>`;
+    case 'finder':
+      return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="10" cy="10" r="7" stroke-linecap="round" />
+                <path d="M15.5 15.5L20 20" stroke-linecap="round" />
+                <path d="M10 7C8.5 7 7.5 7.5 7 8.5" stroke-linecap="round" />
+                <path d="M13 10C13 8 11.5 6.5 9.5 7" stroke-linecap="round" />
+                <path d="M7 11C7.5 13 9 13.5 10.5 13" stroke-linecap="round" />
+                <path d="M11.5 8C12 9.5 11.5 11.5 10 12" stroke-linecap="round" />
               </svg>`;
     case 'procurement':
       return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
