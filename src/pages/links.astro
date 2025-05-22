@@ -56,58 +56,74 @@ import starpodConfig from 'starpod.config';
         </div>
       </div>
 
-      <!-- Host Links -->
+	<!-- Social Links -->
       <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
-        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Follow Our Hosts</h2>
+        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Follow Us</h2>
         <div class="space-y-3">
-          {starpodConfig.hosts.map((host) => (
-            <div class="mb-4">
-              <h3 class="mb-2 font-medium">{host.name}</h3>
-              <div class="ml-4 space-y-2">
-                {host.instagram && (
-                  <SocialLink
-                    href={host.instagram}
-                    icon="instagram"
-                    label="Instagram"
-                  />
-                )}
-                {host.website && (
-                  <SocialLink
-                    href={host.website}
-                    icon="link"
-                    label="Website"
-                  />
-                )}
-              </div>
-            </div>
-          ))}
+			<SocialLink
+				href="https://www.instagram.com/puffprovisions/"
+				icon="instagram"
+				label="Instagram"
+			/>
+			<SocialLink
+				href="https://www.threads.com/@puffprovisions/"
+				icon="threads"
+				label="Threads"
+			/>
+			<SocialLink
+				href="https://www.facebook.com/puffprovisions/"
+				icon="facebook"
+				label="Facebook"
+			/>
+			<SocialLink
+				href="https://www.x.com/puffprovisions/"
+				icon="twitter"
+				label="X (Twitter)"
+			/>
+			<SocialLink
+				href="https://www.tiktok.com/@puffprovisions/"
+				icon="tiktok"
+				label="TikTok"
+			/>
         </div>
       </div>
 
       <!-- Additional Links -->
       <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
-        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">More Links</h2>
+        <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Resources</h2>
         <div class="space-y-3">
           <SocialLink
             href="/puff-finder"
             icon="finder"
-            label="Puff Finder"
+            label="Explore my strain"
           />
           <SocialLink
             href="/puff-procurement"
             icon="procurement"
-            label="Puff Procurement"
+            label="Plan my first grow"
           />
           <SocialLink
             href="/should-i-puff"
             icon="puff"
-            label="Should I Puff?"
+            label="Should I puff?"
           />
+        </div>
+      </div>
+
+	  <!-- Support Links -->
+	  <div class="rounded-lg bg-light-card p-6 dark:bg-dark-card">
+		<h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Support Us</h2>
+		<div class="space-y-3">
           <SocialLink
             href="https://puff-provisions.creator-spring.com/"
             icon="shopping-bag"
             label="Store"
           />
+		  <SocialLink
+			href="https://www.patreon.com/puffprovisions"
+			icon="patreon"
+			label="Patreon"
+		  />
           <SocialLink
             href="/sponsor"
             icon="heart"
@@ -118,8 +134,9 @@ import starpodConfig from 'starpod.config';
             icon="mail"
             label="Contact Us"
           />
-        </div>
-      </div>
+		</div>
+	  </div>
+
     </div>
   </div>
 </Layout>
