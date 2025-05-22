@@ -76,7 +76,7 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
         <h1
           class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white"
         >
-          {episode.episodeNumber}: {episode.title}
+          {episode.episodeNumber && episode.episodeNumber !== 'undefined' ? `${episode.episodeNumber}: ` : ""}{episode.title}
         </h1>
 
         <p class="mb-8 lg:mb-12">
