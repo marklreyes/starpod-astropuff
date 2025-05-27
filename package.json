@@ -20,7 +20,7 @@
     "@astrojs/netlify": "^6.3.4",
     "@astrojs/preact": "^4.0.11",
     "@astrojs/sitemap": "^3.4.0",
-    "@preact/signals": "^2.0.4",
+    "@preact/signals": "^2.1.1",
     "@types/d3": "^7.4.3",
     "@types/topojson-client": "^3.1.5",
     "astro": "^5.7.14",
