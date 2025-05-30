@@ -273,17 +273,17 @@ export default function PuffProcurementApp() {
                 }
 
                 .procurement-app th {
-                    background-color: var(--color-primary, #4f46e5);
+                    background-color: #6bba62; /* Changed from var(--color-primary, #4f46e5) */
                     color: white;
                     text-align: left;
-                    padding: 0.5rem 0.25rem; /* Reduced padding */
+                    padding: 0.5rem 0.25rem;
                     font-weight: 600;
                     position: sticky;
                     top: 0;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    font-size: 0.75rem; /* Smaller header text */
+                    font-size: 0.75rem;
                 }
 
                 .procurement-app td {
@@ -509,9 +509,11 @@ export default function PuffProcurementApp() {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colSpan={8} data-label="Total Lowest Cost">Total Lowest Cost:</td>
+                        <td colSpan={8} data-label="Total Lowest Cost">
+                            <span className="hidden md:inline">Total Lowest Cost:</span>
+                        </td>
                         <td data-label="Total Amount">${totalLowestFinalCost.toFixed(2)}</td>
-                        <td></td>
+        				<td className="hidden md:table-cell"></td>
                     </tr>
                 </tfoot>
             </table>
