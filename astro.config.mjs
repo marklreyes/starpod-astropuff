@@ -9,7 +9,9 @@ import netlify from '@astrojs/netlify';
 export default defineConfig({
   output: 'static',
   site: 'https://puffprovisions.com',
-  integrations: [preact(), sitemap()],
+  integrations: [preact(), sitemap({
+          filter: (page) => page !== 'https://puffprovisions.com/march-and-ash-mission-valley',
+	})],
 
   // Redirects moved from _redirects file
   redirects: {
