@@ -1,0 +1,277 @@
+---
+import { Schema } from 'astro-seo-schema';
+
+import Layout from '../layouts/Layout.astro';
+import CopyPromoButton from '../components/CopyPromoButton';
+import { getAllDispensaries, getDispensaryInfo } from '../lib/dispensaries';
+
+const dispensaryInfo = await getDispensaryInfo();
+
+export async function getStaticPaths() {
+  const allDispensaries = await getAllDispensaries();
+
+  return allDispensaries.map((dispensary) => {
+    return {
+      params: { marketing: dispensary.slug },
+      props: { dispensary }
+    };
+  });
+}
+
+const { dispensary } = Astro.props;
+
+const canonicalURL = new URL(`/${dispensary.slug}`, Astro.url);
+
+const title = `${dispensary.title} - ${dispensaryInfo.title}`;
+---
+
+<Layout
+  canonicalURL={canonicalURL}
+  description={dispensary.description}
+  imageUrl={dispensary.images.logo}
+  title={title}
+>
+  <meta name="robots" content="noindex, nofollow" slot="head" />
+
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'Store',
+      name: dispensary.name,
+      description: dispensary.description,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: dispensary.location.address,
+        addressLocality: dispensary.location.city,
+        addressRegion: dispensary.location.state,
+        postalCode: dispensary.location.zipCode
+      },
+      telephone: dispensary.contact.phone,
+      url: dispensary.contact.website,
+      openingHours: Object.entries(dispensary.hours).map(([day, hours]) => `${day.substring(0, 2)} ${hours}`)
+    }}
+  />
+
+  <div class="relative z-10 px-8 lg:px-18">
+    <div class="block lg:flex">
+      <div class="mr-11 mt-4 hidden lg:block">
+        <div class="flex flex-col items-center space-y-4">
+          <img
+            src={dispensary.images.logo}
+            alt={`${dispensary.name} logo`}
+            class="w-24 h-24 object-contain rounded-lg"
+          />
+          <div class="text-center">
+            <div class="text-yellow-400 text-lg">
+              {'★'.repeat(Math.floor(dispensary.reviews?.rating || 5))}
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {dispensary.reviews?.rating}/5 ({dispensary.reviews?.totalReviews} reviews)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-hidden break-words">
+
+        <h1
+          class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white"
+        >
+          {dispensary.name}
+        </h1>
+
+        <h2 class="mb-4 text-xl text-gray-700 dark:text-gray-300 lg:text-2xl">
+          {dispensary.title}
+        </h2>
+
+        <p class="mb-8 lg:mb-12">
+          {dispensary.description}
+        </p>
+
+        <div class="mb-8 block lg:hidden">
+          <div class="flex flex-col items-center space-y-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <img
+              src={dispensary.images.logo}
+              alt={`${dispensary.name} logo`}
+              class="w-20 h-20 object-contain rounded-lg"
+            />
+            <div class="text-center">
+              <div class="text-yellow-400 text-lg">
+                {'★'.repeat(Math.floor(dispensary.reviews?.rating || 5))}
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                {dispensary.reviews?.rating}/5 ({dispensary.reviews?.totalReviews} reviews)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partnership Benefits Section -->
+        <div class="mb-8 p-6 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
+          <h3 class="text-lg font-semibold text-green-800 dark:text-green-200 mb-4 flex items-center">
+            <span class="mr-2">🤝</span> Partnership Benefits
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-medium text-green-700 dark:text-green-300 mb-2">Member Benefits:</h4>
+              <ul class="text-sm space-y-1">
+                {dispensary.partnership.benefits.map(benefit => (
+                  <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {dispensary.partnership.exclusiveOffers && (
+              <div>
+                <h4 class="font-medium text-green-700 dark:text-green-300 mb-2">Exclusive Offers:</h4>
+                <ul class="text-sm space-y-1">
+                  {dispensary.partnership.exclusiveOffers.map(offer => (
+                    <li class="flex items-start">
+                      <span class="text-green-500 mr-2">🎁</span>
+                      {offer}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <!-- Location & Contact Info -->
+        <h3 class="section-heading-underlined mb-8 mt-16">Location & Hours</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">Address</h4>
+              <p class="text-gray-600 dark:text-gray-400">
+                {dispensary.location.address}<br />
+                {dispensary.location.city}, {dispensary.location.state} {dispensary.location.zipCode}
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">Contact</h4>
+              <p class="text-gray-600 dark:text-gray-400">
+                Phone: <a href={`tel:${dispensary.contact.phone}`} class="text-green-600 hover:text-green-700">{dispensary.contact.phone}</a><br />
+                Email: <a href={`mailto:${dispensary.contact.email}`} class="text-green-600 hover:text-green-700">{dispensary.contact.email}</a><br />
+                Website: <a href={dispensary.contact.website} target="_blank" rel="noopener" class="text-green-600 hover:text-green-700">Visit Website</a>
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">Hours</h4>
+            <div class="space-y-1 text-sm">
+              {Object.entries(dispensary.hours).map(([day, hours]) => (
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-400">{day}:</span>
+                  <span class="text-gray-800 dark:text-gray-200">{hours}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Exclusive Promo Codes -->
+        <h3 class="section-heading-underlined mb-8 mt-16">🎟️ Exclusive Puff Provisions Promo Codes</h3>
+
+        <div class="mb-6 p-4 bg-gradient-to-r from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-800/20 rounded-lg border border-green-300 dark:border-green-600">
+          <p class="text-green-800 dark:text-green-200 text-sm font-medium">
+            ⚠️ <strong>Compliance Notice:</strong> These promotional codes are exclusively for Puff Provisions listeners.
+            Please present a valid ID and verify eligibility at time of purchase. Cannot be combined with other offers unless specified.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 mb-8">
+          {dispensary.promoOffers.map(promo => (
+            <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg overflow-hidden border-2 border-green-300 dark:border-green-600 hover:shadow-xl hover:border-green-400 dark:hover:border-green-500 transition-all duration-300 transform hover:-translate-y-1">
+              <div class="p-6">
+                <div class="flex flex-col mb-4">
+                  <div class="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg font-bold text-lg tracking-wider shadow-md mb-2">
+                    {promo.title}
+                  </div>
+                  <span class={`text-xs sm:text-sm px-3 py-1 rounded-full font-medium border whitespace-nowrap flex-shrink-0 self-start ${
+                    promo.category === 'discount' ? 'bg-red-50 border-red-200 text-red-700 dark:bg-red-900/20 dark:border-red-700 dark:text-red-300' :
+                    promo.category === 'freebie' ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/20 dark:border-blue-700 dark:text-blue-300' :
+                    'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-900/20 dark:border-purple-700 dark:text-purple-300'
+                  }`}>
+                    {promo.category.toUpperCase()}
+                  </span>
+                </div>
+                <p class="text-gray-800 dark:text-gray-200 font-semibold mb-3 text-lg leading-relaxed">{promo.description}</p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">{promo.terms}</p>
+                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <p class="text-xs text-gray-500 dark:text-gray-500 font-medium mb-3">
+                    Valid until: {promo.validUntil.toLocaleDateString()}
+                  </p>
+                  <CopyPromoButton client:load code={promo.title} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Specialties -->
+        <h3 class="section-heading-underlined mb-8 mt-16">Our Specialties</h3>
+
+        <div class="flex flex-wrap gap-3 mb-8">
+          {dispensary.specialties.map(specialty => (
+            <span class="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm font-medium">
+              {specialty}
+            </span>
+          ))}
+        </div>
+
+        <!-- About Section -->
+        <h3 class="section-heading-underlined mb-8 mt-16">
+          About {dispensary.name}
+        </h3>
+
+        <div class="mb-20">
+          <article class="prose prose-neutral dark:prose-invert max-w-none">
+            <Fragment set:html={dispensary.content} />
+          </article>
+        </div>
+
+        <!-- Reviews Section -->
+        {dispensary.reviews && (
+          <div class="mb-16">
+            <h3 class="section-heading-underlined mb-8">Customer Reviews</h3>
+
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl font-bold text-green-600 dark:text-green-400 mr-4">
+                  {dispensary.reviews.rating}
+                </div>
+                <div>
+                  <div class="text-yellow-400 text-xl mb-1">
+                    {'★'.repeat(Math.floor(dispensary.reviews.rating))}{'☆'.repeat(5 - Math.floor(dispensary.reviews.rating))}
+                  </div>
+                  <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Based on {dispensary.reviews.totalReviews} reviews
+                  </p>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <h4 class="font-medium text-gray-800 dark:text-gray-200">What customers love:</h4>
+                <ul class="space-y-1">
+                  {dispensary.reviews.highlights.map(highlight => (
+                    <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <span class="text-green-500 mr-2">👍</span>
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
