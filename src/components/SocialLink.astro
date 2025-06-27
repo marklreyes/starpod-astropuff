@@ -2,7 +2,7 @@
 export interface Props {
   href: string;
   label: string;
-  icon: 'apple-podcasts' | 'spotify' | 'youtube' | 'pocket-casts' | 'rss' | 'instagram' | 'threads' | 'facebook' | 'twitter' | 'tiktok' | 'link' | 'shopping-bag' | 'heart' | 'mail' | 'finder' | 'procurement' | 'puff' | 'patreon' | 'map' | 'horticulture';
+  icon: 'apple-podcasts' | 'spotify' | 'youtube' | 'pocket-casts' | 'rss' | 'instagram' | 'threads' | 'facebook' | 'twitter' | 'tiktok' | 'link' | 'shopping-bag' | 'heart' | 'mail' | 'finder' | 'procurement' | 'puff' | 'patreon' | 'map' | 'horticulture' | 'guestspeaker';
 }
 
 const { href, label, icon } = Astro.props;
@@ -112,6 +112,15 @@ function getIconSvg(iconName: string) {
 						<line x1="12" y1="12" x2="12" y2="22" stroke-linecap="round" />
 						<path d="M9 14c-2 2-2 6-2 8" stroke-linecap="round" />
 						<path d="M15 14c2 2 2 6 2 8" stroke-linecap="round" />
+					</svg>`;
+    case 'guestspeaker':
+			return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" stroke-linejoin="round"></path>
+						<path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+						<line x1="12" y1="19" x2="12" y2="22"></line>
+						<line x1="8" y1="22" x2="16" y2="22"></line>
+						<circle cx="20" cy="4" r="2" stroke-linecap="round"></circle>
+						<path d="M18 6c-1 2-2 3-4 3" stroke-linecap="round"></path>
 					</svg>`;
     default:
       return `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
