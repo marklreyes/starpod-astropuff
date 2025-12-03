@@ -8,20 +8,16 @@ export default defineStarpodConfig({
       name: 'Mark',
       bio: 'Elevating minds and moods, one leafy convo at a time.',
       img: 'mark.jpg',
-      instagram: 'https://www.instagram.com/puffprovisionsmark/',
-      website: 'https://marklreyes.com'
     },
     {
       name: 'Darrell',
       bio: 'Out with the judgment, in with the good vibes.',
       img: 'darrell.jpg',
-      instagram: 'https://www.instagram.com/puffprovisionsdarrell/',
     },
     {
       name: 'Mike',
       bio: 'Breaking stigma with laughs, facts, and just a little haze.',
       img: 'mike.jpg',
-      instagram: 'https://www.instagram.com/puffprovisionsmike/',
     }
   ],
   platforms: {
