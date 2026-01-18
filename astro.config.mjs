@@ -8,7 +8,9 @@ import netlify from '@astrojs/netlify';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
-  site: 'https://puffprovisions.com',
+  site: process.env.NODE_ENV === 'development'
+    ? 'http://localhost:1234'
+    : 'https://puffprovisions.com',
   integrations: [preact(), sitemap({
           filter: (page) => page !== 'https://puffprovisions.com/march-and-ash-mission-valley',
 	})],
