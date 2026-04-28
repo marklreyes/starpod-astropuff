@@ -16,7 +16,7 @@
     "test:e2e": "pnpm exec playwright test"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.8",
     "@astrojs/netlify": "^6.6.0",
     "@astrojs/preact": "^4.1.0",
     "@astrojs/sitemap": "^3.4.0",
