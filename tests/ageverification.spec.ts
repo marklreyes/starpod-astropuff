@@ -47,7 +47,8 @@ test.describe('Age Verification Modal', () => {
 
     await expect(page.getByRole('dialog')).toBeVisible();
 
-    const navigationPromise = page.waitForURL(new RegExp(REDIRECT_URL.replace('https://', '')), {
+    const redirectHostPattern = REDIRECT_URL.replace('https://', '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const navigationPromise = page.waitForURL(new RegExp(redirectHostPattern), {
       timeout: 15000,
       waitUntil: 'domcontentloaded'
     });
