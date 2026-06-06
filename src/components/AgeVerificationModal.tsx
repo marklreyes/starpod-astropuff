@@ -86,13 +86,6 @@ export default function AgeVerificationModal() {
           </button>
         </div>
 
-        <p class="mt-6 text-center text-xs text-light-text-body dark:text-dark-text-body">
-          By entering this site you agree to our{' '}
-          <a href="/links" class="underline hover:opacity-80">
-            terms of use
-          </a>
-          .
-        </p>
       </div>
     </div>
   );
