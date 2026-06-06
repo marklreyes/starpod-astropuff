@@ -8,6 +8,7 @@ import Dots from '../components/Dots.astro';
 import Hosts from '../components/Hosts.astro';
 import InfoCard from '../components/InfoCard.astro';
 import Platforms from '../components/Platforms.astro';
+import AgeVerificationModal from '../components/AgeVerificationModal';
 import Player from '../components/Player';
 import ShowArtwork from '../components/ShowArtwork.astro';
 
@@ -181,6 +182,7 @@ const description = Astro.props.description ?? starpodConfig.description;
       <Hosts />
       <InfoCard />
     </footer>
+    <AgeVerificationModal client:only="preact" transition:persist="age-verification" />
     <div id="audio-player">
       <Player client:only="preact" transition:persist="player" />
     </div>
