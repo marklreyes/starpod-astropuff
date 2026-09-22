@@ -16,7 +16,7 @@
     "test:e2e": "pnpm exec playwright test"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.8",
     "@astrojs/netlify": "^6.6.0",
     "@astrojs/preact": "^4.1.0",
     "@astrojs/sitemap": "^3.4.0",
@@ -38,7 +38,7 @@
     "@playwright/test": "^1.52.0",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.8",
+    "@tailwindcss/vite": "^4.2.4",
     "@types/html-to-text": "^9.0.4",
     "@types/node": "^25.2.3",
     "html-to-text": "^9.0.5",
