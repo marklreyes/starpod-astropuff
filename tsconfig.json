@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "moduleResolution": "bundler",
     "strictNullChecks": true,
     "verbatimModuleSyntax": false,
     "jsx": "react-jsx",
