@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const canonicalURL = new URL(`/blog/${post.id}`, Astro.url);
+---
+
+<Layout
+  canonicalURL={canonicalURL}
+  description={post.data.description}
+  title={post.data.title}
+>
+  <article class="relative z-10 px-8 lg:px-18">
+    <header class="mb-8">
+      {post.data.image && (
+        <img
+          alt={post.data.title}
+          class="mb-6 w-full rounded-xl object-cover lg:max-h-80"
+          src={post.data.image}
+        />
+      )}
+      <p class="section-heading mb-2 text-light-text-secondary dark:text-dark-text-secondary">
+        <FormattedDate date={post.data.pubDate} /> &mdash;{' '}
+        {post.data.author}
+      </p>
+      <h1
+        class="text-2xl font-bold text-light-text-heading lg:text-5xl dark:text-white"
+      >
+        {post.data.title}
+      </h1>
+      <p class="mt-3 text-light-text-secondary dark:text-dark-text-secondary">
+        {post.data.description}
+      </p>
+      {
+        post.data.tags && (
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <li class="rounded-full bg-light-card-bg px-3 py-0.5 text-xs font-semibold dark:bg-dark-card-bg">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <div class="prose dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    <footer class="mt-12 border-t pt-6 dark:border-dark-border">
+      <a
+        class="animated-bottom-border font-bold text-light-text-heading dark:text-white"
+        href="/blog"
+      >
+        &larr; Back to blog
+      </a>
+    </footer>
+  </article>
+</Layout>

@@ -19,34 +19,39 @@ import starpodConfig from 'starpod.config';
         <h2 class="mb-3 text-xl font-bold text-light-text-heading dark:text-white">Free Resources</h2>
         <div class="space-y-3">
           <SocialLink
+            href="/blog"
+            icon="link"
+            label="Read the Blog"
+          />
+          <SocialLink
             href="https://open.spotify.com/episode/2p3mon11NWF0QsBWAO2RZo?si=sUP_md9KTQWd6GrUzd0DZw"
             icon="guestspeaker"
-            label="Cannabis Enlightened w/ Dr. Leroy"
+            label="Listen: Cannabis Enlightened w/ Dr. Leroy"
           />
           <SocialLink
             href="https://www.patreon.com/collection/1503506?view=expanded"
             icon="horticulture"
-            label="Horticulture & Agriculture"
+            label="Learn to Grow"
           />
           <SocialLink
             href="/puff-finder"
             icon="finder"
-            label="Explore my strain"
+            label="Find Your Strain"
           />
           <SocialLink
             href="/puff-procurement"
             icon="procurement"
-            label="Plan my first grow"
+            label="Plan Your First Grow"
           />
           <SocialLink
             href="/should-i-puff"
             icon="puff"
-            label="Should I puff?"
+            label="Should I Puff?"
           />
           <SocialLink
             href="/cannabis-map"
 			icon="map"
-			label="Cannabis map"
+			label="Explore the Map"
           />
         </div>
       </div>
@@ -73,7 +78,7 @@ import starpodConfig from 'starpod.config';
           <SocialLink
             href="/contact"
             icon="mail"
-            label="Contact Us"
+            label="Say Hello"
           />
 		</div>
 	  </div>
@@ -86,35 +91,35 @@ import starpodConfig from 'starpod.config';
             <SocialLink
               href={starpodConfig.platforms.apple}
               icon="apple-podcasts"
-              label="Apple Podcasts"
+              label="Listen on Apple Podcasts"
             />
           )}
           {starpodConfig.platforms.spotify && (
             <SocialLink
               href={starpodConfig.platforms.spotify}
               icon="spotify"
-              label="Spotify"
+              label="Stream on Spotify"
             />
           )}
           {starpodConfig.platforms.youtube && (
             <SocialLink
               href={starpodConfig.platforms.youtube}
               icon="youtube"
-              label="YouTube"
+              label="Watch on YouTube"
             />
           )}
           {starpodConfig.platforms.pocketCasts && (
             <SocialLink
               href={starpodConfig.platforms.pocketCasts}
               icon="pocket-casts"
-              label="Pocket Casts"
+              label="Listen on Pocket Casts"
             />
           )}
           {starpodConfig.rssFeed && (
             <SocialLink
               href={starpodConfig.rssFeed}
               icon="rss"
-              label="RSS Feed"
+              label="Subscribe via RSS"
             />
           )}
         </div>
@@ -127,27 +132,27 @@ import starpodConfig from 'starpod.config';
 			<SocialLink
 				href="https://www.instagram.com/puffprovisions/"
 				icon="instagram"
-				label="Instagram"
+				label="Follow on Instagram"
 			/>
 			<SocialLink
 				href="https://www.threads.com/@puffprovisions/"
 				icon="threads"
-				label="Threads"
+				label="Follow on Threads"
 			/>
 			<SocialLink
 				href="https://www.facebook.com/puffprovisions/"
 				icon="facebook"
-				label="Facebook"
+				label="Like Us on Facebook"
 			/>
 			<SocialLink
 				href="https://www.x.com/puffprovisions/"
 				icon="twitter"
-				label="X (Twitter)"
+				label="Follow on X"
 			/>
 			<SocialLink
 				href="https://www.tiktok.com/@puffprovisions/"
 				icon="tiktok"
-				label="TikTok"
+				label="Follow on TikTok"
 			/>
         </div>
       </div>

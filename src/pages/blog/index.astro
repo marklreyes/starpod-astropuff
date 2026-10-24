@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Blog">
+  <div class="relative z-10 px-8 lg:px-18">
+    <h1
+      class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white"
+    >
+      Blog
+    </h1>
+
+    <p class="mb-10">
+      Deeper dives, cannabis news, product reviews, and everything we didn't get
+      to cover on the pod.
+    </p>
+
+    <ul class="space-y-8">
+      {
+        posts.map((post) => (
+          <li>
+            <a
+              class="group block"
+              href={`/blog/${post.id}`}
+            >
+              {post.data.image && (
+                <img
+                  alt={post.data.title}
+                  class="mb-3 w-full rounded-lg object-cover lg:max-h-48"
+                  src={post.data.image}
+                />
+              )}
+              <p class="section-heading mb-1 text-light-text-secondary dark:text-dark-text-secondary">
+                <FormattedDate date={post.data.pubDate} /> &mdash;{' '}
+                {post.data.author}
+              </p>
+              <h2 class="animated-bottom-border inline text-lg font-bold text-light-text-heading lg:text-2xl dark:text-white">
+                {post.data.title}
+              </h2>
+              <p class="mt-2 text-light-text-secondary dark:text-dark-text-secondary">
+                {post.data.description}
+              </p>
+              {post.data.tags && (
+                <ul class="mt-3 flex flex-wrap gap-2">
+                  {post.data.tags.map((tag) => (
+                    <li class="rounded-full bg-light-card-bg px-3 py-0.5 text-xs font-semibold dark:bg-dark-card-bg">
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>
