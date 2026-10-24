@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate';
+import TableOfContents from '../../components/TableOfContents.astro';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -12,7 +13,8 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const h2s = headings.filter((h) => h.depth === 2);
 
 const canonicalURL = new URL(`/blog/${post.id}`, Astro.url);
 ---
@@ -22,7 +24,7 @@ const canonicalURL = new URL(`/blog/${post.id}`, Astro.url);
   description={post.data.description}
   title={post.data.title}
 >
-  <article class="relative z-10 px-8 lg:px-18">
+  <div class="relative z-10 px-8 lg:px-18">
     <header class="mb-8">
       {post.data.image && (
         <img
@@ -56,17 +58,27 @@ const canonicalURL = new URL(`/blog/${post.id}`, Astro.url);
       }
     </header>
 
-    <div class="prose dark:prose-invert max-w-none">
-      <Content />
-    </div>
+    <div class="lg:grid lg:grid-cols-[1fr_15rem] lg:gap-16">
+      <article>
+        <div class="prose dark:prose-invert max-w-none">
+          <Content />
+        </div>
 
-    <footer class="mt-12 border-t pt-6 dark:border-dark-border">
-      <a
-        class="animated-bottom-border font-bold text-light-text-heading dark:text-white"
-        href="/blog"
-      >
-        &larr; Back to blog
-      </a>
-    </footer>
-  </article>
+        <footer class="mt-12 border-t pt-6 dark:border-dark-border">
+          <a
+            class="animated-bottom-border font-bold text-light-text-heading dark:text-white"
+            href="/blog"
+          >
+            &larr; Back to blog
+          </a>
+        </footer>
+      </article>
+
+      {h2s.length > 0 && (
+        <aside class="hidden lg:block">
+          <TableOfContents headings={h2s} />
+        </aside>
+      )}
+    </div>
+  </div>
 </Layout>
