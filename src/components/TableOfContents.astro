@@ -1,0 +1,62 @@
+---
+interface Props {
+  headings: { slug: string; text: string }[];
+}
+const { headings } = Astro.props;
+---
+
+<nav aria-label="Table of contents" class="sticky top-8">
+  <p class="section-heading mb-3 text-light-text-secondary dark:text-dark-text-secondary">
+    On this page
+  </p>
+  <ul class="border-l dark:border-dark-border">
+    {
+      headings.map((h) => (
+        <li>
+          <a
+            class="toc-link -ml-px block border-l border-transparent py-1.5 pl-4 text-sm text-light-text-secondary transition-all duration-150 hover:text-light-text-heading dark:text-dark-text-secondary dark:hover:text-white"
+            href={`#${h.slug}`}
+          >
+            {h.text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+  const headings = document.querySelectorAll<HTMLHeadingElement>('article h2[id]');
+
+  const setActive = (id: string) => {
+    links.forEach((l) => l.removeAttribute('data-active'));
+    document
+      .querySelector<HTMLAnchorElement>(`.toc-link[href="#${id}"]`)
+      ?.setAttribute('data-active', '');
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      }
+    },
+    { rootMargin: '-10% 0% -80% 0%' }
+  );
+
+  headings.forEach((h) => observer.observe(h));
+</script>
+
+<style>
+  .toc-link[data-active] {
+    border-left-color: #6bba62;
+    color: #6bba62;
+    font-weight: 500;
+  }
+
+  :global(.dark) .toc-link[data-active] {
+    border-left-color: #9ae17b;
+    color: #9ae17b;
+  }
+</style>
