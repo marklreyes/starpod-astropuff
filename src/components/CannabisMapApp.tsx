@@ -13,7 +13,7 @@ interface StateData {
 
 export default function CannabisMapApp() {
   const [hoveredState, setHoveredState] = useState<StateData | null>(null);
-  const [legendVisible, setLegendVisible] = useState(true);
+  const [selectedState, setSelectedState] = useState<StateData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -105,17 +105,15 @@ const getStatusLabel = (status: LegalityStatus) => {
       // Clear any existing content
       d3.select(mapRef.current).selectAll('*').remove();
 
-      // Set up dimensions
-      const width = mapRef.current.clientWidth;
-      const height = 500;
+      // Fixed internal canvas; CSS scales via viewBox preserving aspect ratio
+      const NATURAL_WIDTH = 960;
+      const NATURAL_HEIGHT = 600;
 
-      // Create SVG
       svgRef.current = d3.select(mapRef.current)
         .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .attr('viewBox', `0 0 ${width} ${height}`)
-        .attr('style', 'max-width: 100%; height: auto;');
+        .attr('viewBox', `0 0 ${NATURAL_WIDTH} ${NATURAL_HEIGHT}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('style', 'width: 100%; height: auto; display: block;');
 
       // Create a group for the map
       const g = svgRef.current.append('g');
@@ -131,10 +129,9 @@ const getStatusLabel = (status: LegalityStatus) => {
         .style('z-index', '50')
         .style('box-shadow', '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)');
 
-      // Define the projection for the US map (excluding Alaska and Hawaii)
       projectionRef.current = d3.geoAlbersUsa()
-        .scale(width)
-        .translate([width / 2, height / 2]);
+        .scale(1300)
+        .translate([NATURAL_WIDTH / 2, NATURAL_HEIGHT / 2]);
 
       // Create a path generator
       pathRef.current = d3.geoPath()
@@ -247,23 +244,27 @@ const getStatusLabel = (status: LegalityStatus) => {
         .on('mouseover', function (event: any, d: any) {
           const stateCode = stateIdToCode.get(d.id);
           if (stateCode && statesData[stateCode]) {
-            // Highlight the state
             d3.select(this)
               .attr('stroke-width', 1.5)
               .attr('stroke', 'var(--color-gray-900, #111827)');
-
-            // Update the hovered state
             setHoveredState(statesData[stateCode]);
           }
         })
         .on('mouseout', function () {
-          // Reset state styling
           d3.select(this)
             .attr('stroke-width', 0.5)
             .attr('stroke', 'var(--color-gray-700, #374151)');
-
-          // Clear hovered state
           setHoveredState(null);
+        })
+        .on('click', (_event: any, d: any) => {
+          const stateCode = stateIdToCode.get(d.id);
+          if (stateCode && statesData[stateCode]) {
+            setSelectedState((prev) =>
+              prev?.abbreviation === statesData[stateCode].abbreviation
+                ? null
+                : statesData[stateCode]
+            );
+          }
         });
 
       // Add state labels (optional) - only for larger states for better readability
@@ -277,7 +278,7 @@ const getStatusLabel = (status: LegalityStatus) => {
         })
         .attr('text-anchor', 'middle')
         .attr('dy', '.35em')
-        .attr('font-size', '8px')
+        .attr('font-size', '11px')
         .attr('fill', (d: any) => {
         const stateCode = stateIdToCode.get(d.id);
         if (stateCode) {
@@ -303,29 +304,8 @@ const getStatusLabel = (status: LegalityStatus) => {
     }
   };
 
-  // Handle window resize
-  const handleResize = () => {
-    if (!mapRef.current || !svgRef.current || !projectionRef.current || !pathRef.current) return;
-
-    const width = mapRef.current.clientWidth;
-    const height = 500;
-
-    svgRef.current
-      .attr('width', width)
-      .attr('viewBox', `0 0 ${width} ${height}`);
-
-    // Update projection scale and translate
-    projectionRef.current
-      .scale(width)
-      .translate([width / 2, height / 2]);
-
-    // Update paths and labels
-    svgRef.current.selectAll('path').attr('d', pathRef.current);
-    svgRef.current.selectAll('text').attr('transform', (d: any) => {
-      const centroid = pathRef.current.centroid(d);
-      return centroid ? `translate(${centroid[0]},${centroid[1]})` : '';
-    });
-  };
+  // viewBox-based scaling handles resize natively via CSS
+  const handleResize = () => {};
 
   useEffect(() => {
     // Reset loading state on component mount
@@ -350,48 +330,18 @@ const getStatusLabel = (status: LegalityStatus) => {
     };
   }, []);
 
+  const displayState = hoveredState ?? selectedState;
+
   return (
     <div className="cannabis-map-container w-full max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-light-text-heading dark:text-white">US Cannabis Legality Map</h2>
   <p className="mb-6 text-light-text dark:text-dark-text-body">
-    Hover over states to see cannabis legal status. Data updated as of {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
+    <span className="hidden sm:inline">Hover over</span><span className="sm:hidden">Tap</span> a state to view cannabis legal status. Data updated as of {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
   </p>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col gap-6">
         {/* Map container */}
-        <div className="relative flex-grow border rounded-lg p-4 bg-light-card dark:bg-dark-card border-light-border dark:border-dark-border">
-          {/* Legend toggle button (mobile) */}
-          <button
-            className="lg:hidden absolute top-2 right-2 z-10 p-2 bg-light-background dark:bg-dark-background rounded-full"
-            onClick={() => setLegendVisible(!legendVisible)}
-            aria-label="Toggle legend"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2h2a1 1 0 100-2H9z" clipRule="evenodd" />
-            </svg>
-          </button>
-
-          {/* Mobile legend */}
-          {legendVisible && (
-            <div className="lg:hidden absolute top-12 right-2 z-10 bg-light-card dark:bg-dark-card rounded-lg shadow-lg border border-light-border dark:border-dark-border p-3 mb-4">
-              <div className="text-sm font-medium mb-2">Cannabis Status:</div>
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center">
-                  <div className="w-4 h-4 mr-2 rounded" style={{ backgroundColor: '#10b981' }}></div>
-                  <span>Fully Legal</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-4 h-4 mr-2 rounded" style={{ backgroundColor: '#eab308' }}></div>
-                  <span>Mixed Status</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-4 h-4 mr-2 rounded" style={{ backgroundColor: '#ef4444' }}></div>
-                  <span>Illegal</span>
-                </div>
-              </div>
-            </div>
-          )}
-
+        <div className="relative w-full border rounded-lg p-4 bg-light-card dark:bg-dark-card border-light-border dark:border-dark-border">
           {/* Loading indicator */}
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-light-card dark:bg-dark-card bg-opacity-75 dark:bg-opacity-75 z-10">
@@ -427,53 +377,64 @@ const getStatusLabel = (status: LegalityStatus) => {
           )}
 
           {/* D3 Map will be rendered here */}
-          <div ref={mapRef} className="w-full h-[500px]"></div>
+          <div ref={mapRef} className="w-full"></div>
 
           {/* Tooltip for D3 hover */}
           <div ref={tooltipRef} className="hidden"></div>
 
-          {/* State info overlay */}
-          {hoveredState && !isLoading && !hasError && (
-            <div className="absolute bottom-4 left-4 right-4 bg-light-card dark:bg-dark-background border border-light-border dark:border-dark-border p-4 rounded-lg shadow-lg">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-bold text-lg">{hoveredState.name}</h3>
-				<div className={`px-3 py-1 rounded-full text-xs font-medium ${
-				  hoveredState.status === 'legal' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
-				  hoveredState.status === 'mixed' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
-				  hoveredState.status === 'illegal' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
-				  'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
-				}`}>
-                  {getStatusLabel(hoveredState.status)}
-                </div>
-              </div>
-              <p className="text-sm text-light-text-muted dark:text-dark-text-muted">{hoveredState.description}</p>
-            </div>
-          )}
         </div>
 
-        {/* Desktop Legend */}
-        <div className="hidden lg:block w-60 bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg p-4 h-fit">
-          <h3 className="font-medium mb-4 text-light-text-heading dark:text-white">Cannabis Legal Status</h3>
+        {displayState && !isLoading && !hasError && (
+          <div className="w-full bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-bold text-lg">{displayState.name}</h3>
+              <div className="flex items-center gap-2">
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  displayState.status === 'legal' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                  displayState.status === 'mixed' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                  displayState.status === 'illegal' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
+                  'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+                }`}>
+                  {getStatusLabel(displayState.status)}
+                </div>
+                {selectedState && !hoveredState && (
+                  <button
+                    onClick={() => setSelectedState(null)}
+                    aria-label="Dismiss"
+                    className="text-light-text-muted dark:text-dark-text-muted hover:text-light-text-heading dark:hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+            <p className="text-sm text-light-text-muted dark:text-dark-text-muted">{displayState.description}</p>
+          </div>
+        )}
 
-          <div className="space-y-4">
-            <div className="flex items-start">
-              <div className="w-4 h-4 mt-1 mr-3 rounded" style={{ backgroundColor: '#10b981' }}></div>
+        {/* Legend */}
+        <div className="w-full bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg p-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:gap-8">
+            <div className="flex items-start gap-3 mb-4 sm:mb-0">
+              <div className="w-4 h-4 mt-1 shrink-0 rounded" style={{ backgroundColor: '#10b981' }}></div>
               <div>
                 <p className="font-medium">Fully Legal</p>
                 <p className="text-sm text-light-text-muted dark:text-dark-text-muted">Recreational and medical use legal</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <div className="w-4 h-4 mt-1 mr-3 rounded" style={{ backgroundColor: '#eab308' }}></div>
+            <div className="flex items-start gap-3 mb-4 sm:mb-0">
+              <div className="w-4 h-4 mt-1 shrink-0 rounded" style={{ backgroundColor: '#eab308' }}></div>
               <div>
                 <p className="font-medium">Mixed Status</p>
                 <p className="text-sm text-light-text-muted dark:text-dark-text-muted">Limited medical use or decriminalization</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <div className="w-4 h-4 mt-1 mr-3 rounded" style={{ backgroundColor: '#ef4444' }}></div>
+            <div className="flex items-start gap-3">
+              <div className="w-4 h-4 mt-1 shrink-0 rounded" style={{ backgroundColor: '#ef4444' }}></div>
               <div>
                 <p className="font-medium">Illegal</p>
                 <p className="text-sm text-light-text-muted dark:text-dark-text-muted">Prohibited for recreational and medical use</p>
@@ -481,7 +442,7 @@ const getStatusLabel = (status: LegalityStatus) => {
             </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-light-border dark:border-dark-border">
+          <div className="mt-4 pt-4 border-t border-light-border dark:border-dark-border">
             <p className="text-xs text-light-text-muted dark:text-dark-text-muted">Note: Cannabis legality can change. This information is for educational purposes only.</p>
           </div>
         </div>
